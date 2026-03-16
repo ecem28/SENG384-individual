@@ -7,6 +7,18 @@ const [email,setEmail] = useState("")
 
 const addPerson = async () => {
 
+if(!name || !email){
+alert("All fields are required")
+return
+}
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+if(!emailRegex.test(email)){
+alert("Invalid email format")
+return
+}
+
 await fetch("http://localhost:5000/api/people",{
 method:"POST",
 headers:{
@@ -20,16 +32,20 @@ email:email
 
 alert("Person added")
 
+setName("")
+setEmail("")
+
 }
 
 return (
 
 <div style={{padding:"40px"}}>
 
-<h1>Add Person</h1>
+<h2>Add Person</h2>
 
 <input
 placeholder="Full Name"
+value={name}
 onChange={(e)=>setName(e.target.value)}
 />
 
@@ -37,6 +53,7 @@ onChange={(e)=>setName(e.target.value)}
 
 <input
 placeholder="Email"
+value={email}
 onChange={(e)=>setEmail(e.target.value)}
 />
 

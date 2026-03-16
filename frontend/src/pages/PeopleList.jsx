@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react"
 
-function PeopleList() {
+function PeopleList(){
 
 const [people,setPeople] = useState([])
+const [editingId,setEditingId] = useState(null)
+const [name,setName] = useState("")
+const [email,setEmail] = useState("")
 
 const loadPeople = async () => {
 
@@ -17,7 +20,12 @@ useEffect(()=>{
 loadPeople()
 },[])
 
-const deletePerson = async (id) => {
+
+const deletePerson = async (id)=>{
+
+const confirmDelete = window.confirm("Are you sure you want to delete this person?")
+
+if(!confirmDelete) return
 
 await fetch(`http://localhost:5000/api/people/${id}`,{
 method:"DELETE"
@@ -27,17 +35,69 @@ loadPeople()
 
 }
 
-return (
+
+const startEdit = (person)=>{
+
+setEditingId(person.id)
+setName(person.full_name)
+setEmail(person.email)
+
+}
+
+
+const updatePerson = async ()=>{
+
+await fetch(`http://localhost:5000/api/people/${editingId}`,{
+method:"PUT",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+full_name:name,
+email:email
+})
+})
+
+setEditingId(null)
+setName("")
+setEmail("")
+
+loadPeople()
+
+}
+
+
+return(
 
 <div style={{padding:"40px"}}>
 
-<h1>People List</h1>
+<h2>People List</h2>
 
-<ul>
+<table border="1" cellPadding="10">
+
+<thead>
+
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody>
+
 {people.map((p)=>(
-<li key={p.id}>
+<tr key={p.id}>
 
-{p.full_name} - {p.email}
+<td>{p.full_name}</td>
+<td>{p.email}</td>
+
+<td>
+
+<button onClick={()=>startEdit(p)}>
+Edit
+</button>
 
 <button
 onClick={()=>deletePerson(p.id)}
@@ -46,9 +106,42 @@ style={{marginLeft:"10px"}}
 Delete
 </button>
 
-</li>
+</td>
+
+</tr>
 ))}
-</ul>
+
+</tbody>
+
+</table>
+
+{editingId && (
+
+<div style={{marginTop:"30px"}}>
+
+<h3>Edit Person</h3>
+
+<input
+value={name}
+onChange={(e)=>setName(e.target.value)}
+/>
+
+<br/><br/>
+
+<input
+value={email}
+onChange={(e)=>setEmail(e.target.value)}
+/>
+
+<br/><br/>
+
+<button onClick={updatePerson}>
+Update
+</button>
+
+</div>
+
+)}
 
 </div>
 
