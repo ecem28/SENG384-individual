@@ -1,73 +1,52 @@
 # Docker Person App
+This project is a full-stack web application built using Docker.
 
-This project is a full-stack web application built with Docker.
-
+It allows users to add, view, update and delete people stored in a PostgreSQL database.
 ## Technologies Used
 
-- React (Frontend)
-- Node.js + Express (Backend)
-- PostgreSQL (Database)
 - Docker
 - Docker Compose
+- Node.js
+- Express.js
+- React (Vite)
+- PostgreSQL
+## How to Run the Project
+Clone the repository
 
-## Project Features
-
-The application allows users to:
-
-- Add a person
-- View the list of people
-- Delete a person
-
-## Project Architecture
-
-The system consists of three main services:
-
-Frontend → React application  
-Backend → Node.js REST API  
-Database → PostgreSQL database
-
-All services run in separate Docker containers and communicate through Docker Compose.
-
-## Running the Project
-
-To run the application:
-
-```bash
-docker-compose up --build
+```
+git clone https://github.com/ecem28/SENG384-individual.git
 ```
 
-After running the containers:
+Navigate to the project folder
 
-Frontend  
 ```
-http://localhost:5174
+cd SENG384-individual
 ```
 
-Backend API  
+Run Docker
+
+```
+docker compose up --build
+```
+## Application URLs
+Frontend
+
+```
+http://localhost:5173
+```
+
+Backend API
+
 ```
 http://localhost:5000/api/people
 ```
+## Application Screenshots
+![Person Added](screenshots/person-added.png)
+![Delete Confirmation](screenshots/delete-confirmation.png)
+![Edit Person](screenshots/edit-person.png)
+![People List](screenshots/people-list.png)
+![Backend API](screenshots/backend-api.png)
+## Author
 
-## API Endpoints
-
-GET all people
-
-```
-GET /api/people
-```
-
-Add person
-
-```
-POST /api/people
-```
-
-Delete person
-
-```
-DELETE /api/people/:id
-```
-
-## Screenshots
-
-(Add screenshots of the running application here)
+Ecem Tüysüz  
+Çankaya University – Software Engineering
